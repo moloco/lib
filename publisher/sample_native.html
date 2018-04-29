@@ -1,0 +1,204 @@
+<!--
+    This file demonstrates the sample use of Moloco Javascript SDK for Publisher (native ad version).
+-->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1"/>
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+  <title>Moloco Ad Cloud</title>
+
+  <script
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous">
+  </script>
+
+  <script src="moloco.js"></script>
+
+  <style>
+    .content {
+      width: 100%;
+      height: auto;
+    }
+    .content img {
+      display: block;
+      margin: 0 auto;
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+    }
+    table tr {
+      width: 100%;
+    }
+    #title {
+      margin: 0;
+      padding: 0;
+    }
+    #text {
+      margin: 0 0 0 10px;
+      padding: 0;
+    }
+    #native_main_image {
+      max-width: 100%;
+    }
+    .ad_header img {
+      max-height: 128px;
+      margin: 0;
+      padding: 0;
+    }
+    .ad_header td:first-child {
+      width: 30%;
+    }
+    .action_button {
+      background-color: #4CAF50; /* Green */
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      border-radius: 12px;
+      margin: auto;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- This example illustrates how to dynamically render content and request a native ad. -->
+  <div id="dynamic_content" style="overflow: scroll; width: 100%;"></div>
+  <div id="loading" style="display: none; margin: auto;">
+    <img src="https://storage.googleapis.com/second_line/loading.gif" width="100%"/>
+  </div>
+
+  <script>
+    function getSmallDummyContent() {
+      let header = document.createElement("h3");
+      header.innerHTML = "This is an example content.";
+      let paragraph = document.createElement("p");
+      paragraph.innerHTML = ["Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+        "incididunt ut labore et dolore magna aliqua. Aliquet lectus proin nibh nisl. Velit ut tortor pretium viverra",
+        "suspendisse potenti nullam ac. Vivamus at augue eget arcu. Id eu nisl nunc mi ipsum faucibus. Risus quis",
+        "varius quam quisque id diam vel. Morbi enim nunc faucibus a pellentesque sit amet porttitor eget."].join(' ');
+      let contentDiv = document.createElement("div");
+      contentDiv.style.width = "100%";
+      contentDiv.appendChild(header);
+      contentDiv.appendChild(paragraph);
+
+      return contentDiv;
+    }
+    function getBigDummyContent() {
+      let img = document.createElement("img");
+      img.src = "https://storage.googleapis.com/second_line/moloco_icon.png";
+      img.style.width = "100%";
+      let paragraph = document.createElement("p");
+      paragraph.innerHTML = ["Neque volutpat ac tincidunt vitae semper quis lectus. Ultricies tristique nulla aliquet",
+        "enim tortor at auctor. Sapien eget mi proin sed. Metus dictum at tempor commodo ullamcorper a. Sed tempus",
+        "urna et pharetra pharetra massa. Sed libero enim sed faucibus turpis in eu mi."].join(' ');
+      let contentDiv = document.createElement("div");
+      contentDiv.style.width = "100%";
+      contentDiv.appendChild(getSmallDummyContent());
+      contentDiv.appendChild(img);
+      contentDiv.appendChild(paragraph);
+
+      return contentDiv;
+    }
+    function getAdDiv(adDivID) {
+      /***
+       * This is an example of an ad div. Placeholders supported:
+       * - Icon:
+       * ---- The placeholder: "##ICON_IMAGE##"
+       * ---- Will be replaced by: string - link to a source of an icon.
+       * - Main Image:
+       * ---- The placeholder: "##MAIN_IMAGE##"
+       * ---- Will be replaced by: string - link to a source of the main image of an ad.
+       * - Title:
+       * ---- The placeholder: "##TITLE##";
+       * - Text:
+       * ---- The placeholder: "##TEXT##";
+       * - Click Link:
+       * ---- The placeholder: "##CLK##";
+       * - Call-To-Action Text:
+       * ---- The placeholder: "##CTA_TEXT##";
+       */
+      let adDiv = document.createElement("div");
+      adDiv.id = adDivID;
+      adDiv.innerHTML = `
+        <table id="molocoads_view">
+          <tr class="ad_header">
+            <td rowspan="2"><img src="##ICON_IMAGE##"></td>
+            <td>
+              <h2 id="title">##TITLE##</h2>
+            </td>
+          </tr>
+          <tr>
+            <td><a class="action_button" href="##CLK##"> ##CTA_TEXT## </a></td>
+          </tr>
+          <tr>
+            <td colspan="2"><p id="text">##TEXT##</p></td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <a id="molocoads_link" href="##CLK##" target="_blank">
+                <img id="native_main_image" src="##MAIN_IMAGE##"/>
+              </a>
+            </td>
+          </tr>
+        </table>`.replace(/\>\s+/g, '>'); // Minify  (i.e., remove all unnecessary spaces) html.
+
+      return adDiv;
+    }
+    function showAd() {
+      // Return true or false randomly.
+      return (Math.floor(Math.random() * 2) === 1) ? true : false;
+    }
+
+    // Initialize MolocoSDK.
+    var bundle = "123456789"; // Replace with the actual app bundle.
+    var idfa = "";  // Please fill in ADID passed from the native app side.
+    let moloco = new MolocoSDK({
+      idfa: idfa,
+      ad_unit: "ced0f7207dee45f3b42b41afa3e07b6e",  // Must be replaced by the real ad unit ID.
+      ad_type: AdType.NATIVE,
+      container_id: "",
+      fallback_container_id: "",
+      bundle: bundle,
+      country_iso: "kr",
+      width: 1200,
+      height: 628
+    });
+
+    // Dynamically generate and render the content, and occasionally request for a native ad.
+    $( document ).ready(function() {
+      let contentDiv = document.getElementById("dynamic_content");
+      let loadingDiv = document.getElementById("loading");
+      // The first content.
+      contentDiv.appendChild(getBigDummyContent());
+      // The number of ads showed.
+      let adCount = 0;
+      $(window).scroll(function () {
+        if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
+          loadingDiv.style.display = "block";
+          if (showAd()) {
+            const adId = "ad-" + adCount;
+            adCount++;
+            let adDiv = getAdDiv(adId);
+            adDiv.style.display = "none";
+            // Render an ad within some "other" content.
+            contentDiv.appendChild(getSmallDummyContent());
+            contentDiv.appendChild(adDiv);
+            // Request an Ad.
+            moloco.requestAd(document.getElementById(adId));
+            contentDiv.appendChild(getSmallDummyContent());
+          }
+          contentDiv.appendChild(getBigDummyContent());
+          loadingDiv.style.display = "none";
+        }
+      })
+    });
+  </script>
+
+</body>
+</html>

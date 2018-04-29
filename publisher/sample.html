@@ -1,0 +1,64 @@
+<!--
+    This file demonstrates the sample use of Moloco Javascript SDK for Publisher.
+-->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1"/>
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+  <title>Moloco Ad Cloud</title>
+
+  <script
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+
+  <script src="moloco.js"></script>
+
+  <style>
+    .content {
+      width: 100%;
+      height: auto;
+    }
+    .content img {
+      display: block;
+      margin: 0 auto;
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="moloco_ad_container_fallback">
+    <img class="content" src="https://storage.googleapis.com/second_line/fallback_default.jpg"/>
+  </div>
+  <div id="moloco_ad_container"></div>
+
+  <script>
+    // Initialize MolocoSDK.
+    var bundle = "123456789"; // Replace with the actual app bundle.
+    var idfa = "";  // Please fill in ADID passed from the native app side.
+    var moloco = new MolocoSDK({
+      idfa: idfa,
+      ad_unit: "ced0f7207dee45f3b42b41afa3e07b6e",  // Must be replaced by the real ad unit ID.
+      ad_type: AdType.BANNER,
+      container_id: "moloco_ad_container",
+      fallback_container_id: "moloco_ad_container_fallback",
+      bundle: bundle,
+      country_iso: "kr",
+      width: 640,
+      height: 100
+    });
+
+    // Request ad on load.
+    moloco.requestAd();
+  </script>
+
+</body>
+</html>
