@@ -70,7 +70,8 @@ https://exchange.adsmoloco.com/ad?mobile_web=1&id=dd8429593bef4a26994577128e544e
   * `starrating` star rating value in case of mobile app advertisement
 * Sample request and response (only demonstration purposes, the link doesn't work)
 
-```https://exchange.adsmoloco.com/ad?mobile_web=1&id=dd8429593bef4a26994577128e544e0e&udid=ifa:9759e029-e270-4841-83c0-477963c97747&bundle=com.moloco.app&iso=us&w=1200&h=628&o=l&ufid=1880ef07-45b3-46a9-8141-f5f4d3627e4d&assets=title%2Ctext%2Ciconimage%2Cmainimage%2Cctatext
+```
+https://exchange.adsmoloco.com/ad?mobile_web=1&id=dd8429593bef4a26994577128e544e0e&udid=ifa:9759e029-e270-4841-83c0-477963c97747&bundle=com.moloco.app&iso=us&w=1200&h=628&o=l&ufid=1880ef07-45b3-46a9-8141-f5f4d3627e4d&assets=title%2Ctext%2Ciconimage%2Cmainimage%2Cctatext
 ```
 ```javascript
 {
