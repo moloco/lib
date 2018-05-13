@@ -1,3 +1,4 @@
+# Ad Serving
 Moloco provides a single endpoint to access its ad serving functionality. Moloco currently supports image (either banner or interstitial) and native ad types.
 
 ## Request Ad
@@ -7,7 +8,8 @@ GET https://exchange.adsmoloco.com/ad
 ### Header Parameters
 | Parameter | Type | Description |
 | --- | --- | --- |
-| User-Agent | string | Browser's user agent string |
+| API-Key | string | API key for your organization issued by Moloco. |
+| User-Agent | string | Browser's user agent string. |
 
 ### Query Parameters
 | Parameter | Type | Description |
@@ -88,3 +90,14 @@ https://exchange.adsmoloco.com/ad?mobile_web=1&id=dd8429593bef4a26994577128e544e
   "title":"Moloco, the ultimate marketing platform"
 }
 ```
+
+# Ad Managing
+You will need to manage your ad unit details. Below APIs are currenly not fully supported. Please work with your Moloco representative if you want to create or update your ad unit.
+
+## Create/Update Ad Unit
+
+## List Ad Units
+
+## Get Ad Unit
+
+## Delete Ad Unit
