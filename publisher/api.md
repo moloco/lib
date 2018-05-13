@@ -1,10 +1,12 @@
 # Ad Serving
 Moloco provides a single endpoint to access its ad serving functionality. Moloco currently supports image (either banner or interstitial) and native ad types.
 
-## Request Ad
-```javascript
-GET https://exchange.adsmoloco.com/ad
-```
+## Request Endpoints
+
+| Location | Endpoint |
+| America | https://exchange-us.adsmoloco.com/ad |
+| Europe | https://exchange-eu.adsmoloco.com/ad |
+| ASIA | https://exchange-asia.adsmoloco.com/ad |
 
 
 ### Header Parameters
@@ -38,7 +40,7 @@ Content-type of the response is different by the request ad type (image or nativ
 * Sample request and response (only demonstration purposes, the link doesn't work)
 
 ```
-https://exchange.adsmoloco.com/ad?mobile_web=1&id=dd8429593bef4a26994577128e544e0e&udid=ifa:9759e029-e270-4841-83c0-477963c97747&bundle=com.moloco.app&iso=us&w=640&h=100&o=l&ufid=6905aeb1-85df-4e43-8cb8-214484dff514
+https://exchange-us.adsmoloco.com/ad?mobile_web=1&id=dd8429593bef4a26994577128e544e0e&udid=ifa:9759e029-e270-4841-83c0-477963c97747&bundle=com.moloco.app&iso=us&w=640&h=100&o=l&ufid=6905aeb1-85df-4e43-8cb8-214484dff514
 ```
 ```html
 <span id="molocoads_view">
@@ -77,7 +79,7 @@ https://exchange.adsmoloco.com/ad?mobile_web=1&id=dd8429593bef4a26994577128e544e
 * Sample request and response (only demonstration purposes, the link doesn't work)
 
 ```
-https://exchange.adsmoloco.com/ad?mobile_web=1&id=dd8429593bef4a26994577128e544e0e&udid=ifa:9759e029-e270-4841-83c0-477963c97747&bundle=com.moloco.app&iso=us&w=1200&h=628&o=l&ufid=1880ef07-45b3-46a9-8141-f5f4d3627e4d&assets=title%2Ctext%2Ciconimage%2Cmainimage%2Cctatext
+https://exchange-us.adsmoloco.com/ad?mobile_web=1&id=dd8429593bef4a26994577128e544e0e&udid=ifa:9759e029-e270-4841-83c0-477963c97747&bundle=com.moloco.app&iso=us&w=1200&h=628&o=l&ufid=1880ef07-45b3-46a9-8141-f5f4d3627e4d&assets=title%2Ctext%2Ciconimage%2Cmainimage%2Cctatext
 ```
 ```javascript
 {
@@ -94,14 +96,3 @@ https://exchange.adsmoloco.com/ad?mobile_web=1&id=dd8429593bef4a26994577128e544e
   "title":"Moloco, the ultimate marketing platform"
 }
 ```
-
-# Ad Managing
-You will need to manage your ad unit details. Below APIs are currenly not fully supported. Please work with your Moloco representative if you want to create or update your ad unit.
-
-## Create/Update Ad Unit
-
-## List Ad Units
-
-## Get Ad Unit
-
-## Delete Ad Unit
