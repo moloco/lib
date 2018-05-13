@@ -4,6 +4,7 @@ Moloco provides a single endpoint to access its ad serving functionality. Moloco
 ## Request Endpoints
 
 | Location | Endpoint |
+| --- | --- |
 | America | https://exchange-us.adsmoloco.com/ad |
 | Europe | https://exchange-eu.adsmoloco.com/ad |
 | ASIA | https://exchange-asia.adsmoloco.com/ad |
