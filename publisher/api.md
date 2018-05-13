@@ -8,7 +8,7 @@ Moloco provides three endpoints. Use the closest one for your target users.
 | --- | --- |
 | America | https://exchange-us.adsmoloco.com/ad |
 | Europe | https://exchange-eu.adsmoloco.com/ad |
-| ASIA | https://exchange-asia.adsmoloco.com/ad |
+| Asia | https://exchange-asia.adsmoloco.com/ad |
 
 
 ### Header Parameters
