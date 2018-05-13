@@ -6,21 +6,16 @@ Moloco provides a single endpoint to access its ad serving functionality. Moloco
 GET https://exchange.adsmoloco.com/ad
 ```
 
-### Table Test
-| head1        | head two          | three |
-|:-------------|:------------------|:------|
-| ok           | good swedish fish | nice  |
-| out of stock | good and plenty   | nice  |
-| ok           | good `oreos`      | hmm   |
-| ok           | good `zoute` drop | yumm  |
 
 ### Header Parameters
+
 | Parameter | Type | Description |
 | --- | --- | --- |
 | API-Key | string | API key for your organization issued by Moloco. |
 | User-Agent | string | Browser's user agent string. |
 
 ### Query Parameters
+
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `mobile_web` | boolean | Indicates this request comes from mobile web, not mobile app. |
