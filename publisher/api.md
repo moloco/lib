@@ -1,7 +1,8 @@
 # Ad Serving
-Moloco provides a single endpoint to access its ad serving functionality. Moloco currently supports image (either banner or interstitial) and native ad types.
+Moloco provides APIs to access its ad serving functionality. Moloco currently supports image (either banner or interstitial) and native ad types.
 
 ## Request Endpoints
+Moloco provides three endpoints. Use the closest one for your target users.
 
 | Location | Endpoint |
 | --- | --- |
@@ -14,7 +15,7 @@ Moloco provides a single endpoint to access its ad serving functionality. Moloco
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| API-Key | string | API key for your organization issued by Moloco. |
+| API-Key | string | API key for your organization issued by Moloco. Contact Moloco if you need one. |
 | User-Agent | string | Browser's user agent string. |
 
 ### Query Parameters
@@ -22,7 +23,7 @@ Moloco provides a single endpoint to access its ad serving functionality. Moloco
 | Parameter | Type | Description |
 | --- | --- | --- |
 | `mobile_web` | boolean | Indicates this request comes from mobile web, not mobile app. |
-| `id` | string | Ad Unit ID that identifis the ad placement (must be issued by Moloco). |
+| `id` | string | Ad Unit ID that identifis the ad placement. Currently Ad Unit must be issued by Moloco. Moloco plans to provide self-serving APIs in the next revision. |
 | `udid` | string | Unique Device ID. It consists of ID type and ID value delimitered by `:` (e.g., ifa:bfd3d66e-0c23-4005-ac00-74292f7168ac). Currently only ID type `ifa` (Identifier For Advertisers) is supported and the value is expected to be Android's GAID or iOS's IDFA. |
 | `ufid` | string | Unique Request ID to identify this ad request from others, preferably a GUID. |
 | `o` | string | Screen orientation: `l` for landscape, `p` for portrait. |
