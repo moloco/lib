@@ -78,6 +78,7 @@ https://exchange-us.adsmoloco.com/ad?mobile_web=1&id=dd8429593bef4a26994577128e5
   * `text` content text string
   * `ctatext` Call-To-Action button text
   * `starrating` star rating value in case of mobile app advertisement
+  
 * Sample request and response (only demonstration purposes, the link doesn't work)
 
 ```
