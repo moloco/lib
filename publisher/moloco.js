@@ -28,7 +28,7 @@ function constructNativeAdDiv(nativeAd, nativeAdDiv) {
 }
 
 var MolocoSDK = function (data) {
-  this.endpoint = "https://adservfnt-asia.adsmoloco.com/adserver?mobile_web=1";
+  this.endpoint = "//adservfnt-asia.adsmoloco.com/adserver?mobile_web=1";
   this.adUnit = data["ad_unit"];
   this.adType = data["ad_type"];
   this.containerId = data["container_id"];
