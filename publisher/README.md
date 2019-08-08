@@ -39,12 +39,13 @@ Now initialize Moloco SDK using the provided ad unit ID.
       bundle: bundle,
       country_iso: "kr",
       width: 640,
-      height: 100
+      height: 100,
+      os: "android"
     }); 
   </script>
 ```
 
-From the sample code above, `bundle`, `idfa`, and `ad_unit` must be replaced by the proper values of your own. Please note that `idfa` comes from your native app code and you have to write relevant logic around your WebView initializer.
+From the sample code above, `bundle`, `idfa`, `ad_unit`, and `os` must be replaced by the proper values of your own. Please note that `idfa` comes from your native app code and you have to write relevant logic around your WebView initializer.
 
 The rest part differs by which advertisement type you want to integrate with.
 
