@@ -4,10 +4,10 @@ const AdType = Object.freeze({
 });
 
 function uuidv4() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-    });
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
 }
 
 function constructNativeAdDiv(nativeAd, nativeAdDiv) {
@@ -27,24 +27,28 @@ function constructNativeAdDiv(nativeAd, nativeAdDiv) {
   return nativeAdDiv;
 }
 
-var MolocoSDK = function(data) {
-    this.endpoint = "//bidfnt-asia.adsmoloco.com/adserver?mobile_web=1";
-    this.adUnit = data["ad_unit"];
-    this.adType = data["ad_type"];
-    this.containerId = data["container_id"];
-    this.fallbackContainerId = data["fallback_container_id"];
-    this.idfa = data["idfa"];
-    this.bundle = data["bundle"];
-    this.country = data["country_iso"];
-    this.width = data["width"];
-    this.height = data["height"];
-    this.extra = encodeURIComponent(data["extra"] || "");
+var MolocoSDK = function (data) {
+  this.endpoint = "https://adservfnt-asia.adsmoloco.com/adserver?mobile_web=1";
+  this.adUnit = data["ad_unit"];
+  this.adType = data["ad_type"];
+  this.containerId = data["container_id"];
+  this.fallbackContainerId = data["fallback_container_id"];
+  this.idfa = data["idfa"];
+  this.bundle = data["bundle"];
+  this.country = data["country_iso"];
+  this.width = data["width"];
+  this.height = data["height"];
+  this.extra = encodeURIComponent(data["extra"] || "");
+  this.os = data["os"];
 }
 
 // Send ad request to Moloco.
-MolocoSDK.prototype.requestAd = function(adDiv) {
+MolocoSDK.prototype.requestAd = function (adDiv) {
   const orientation = window.innerWidth > window.innerHeight ? "l" : "p";
   let url = this.endpoint + "&id=" + this.adUnit + "&udid=ifa:" + this.idfa + "&bundle=" + this.bundle + "&iso=" + this.country + "&w=" + this.width + "&h=" + this.height + "&o=" + orientation + "&ufid=" + uuidv4() + "&x=" + this.extra;
+  if (this.os) {
+    url = url + "&os=" + this.os;
+  }
   if (this.adType === AdType.NATIVE) {
     url = url + "&assets=title%2Ctext%2Ciconimage%2Cmainimage%2Cctatext";
   }
@@ -72,7 +76,7 @@ MolocoSDK.prototype.requestAd = function(adDiv) {
             nativeAd = JSON.parse(xhr.responseText);
             adDiv.innerHTML = constructNativeAdDiv(nativeAd, adDiv.innerHTML);
             adDiv.style.display = "block";
-          } catch(err) {
+          } catch (err) {
             console.log(err);
           }
           break;
@@ -82,7 +86,7 @@ MolocoSDK.prototype.requestAd = function(adDiv) {
 }
 
 // Render ad received from Moloco.
-MolocoSDK.prototype.renderAd = function(adm) {
+MolocoSDK.prototype.renderAd = function (adm) {
   document.getElementById(this.fallbackContainerId).style.display = "block";
   document.getElementById(this.containerId).style.display = "none";
   this.replaceAdm(adm);
@@ -91,10 +95,10 @@ MolocoSDK.prototype.renderAd = function(adm) {
 }
 
 // Refresh the ad slot by replacing the div content.
-MolocoSDK.prototype.replaceAdm = function(adm) {
-    var container = document.getElementById(this.containerId);
-    container.innerHTML = adm;
-    if (document.getElementById("__mimg")) {
-        document.getElementById("__mimg").className = "content";
-    }
+MolocoSDK.prototype.replaceAdm = function (adm) {
+  var container = document.getElementById(this.containerId);
+  container.innerHTML = adm;
+  if (document.getElementById("__mimg")) {
+    document.getElementById("__mimg").className = "content";
+  }
 }
