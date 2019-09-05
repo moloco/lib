@@ -40,7 +40,9 @@ Now initialize Moloco SDK using the provided ad unit ID.
       country_iso: "kr",
       width: 640,
       height: 100,
-      os: "android"
+      os: "android",
+      use_redirect_url: false, // default: false.
+      isLegacy: false, // default: true.
     }); 
   </script>
 ```

@@ -28,7 +28,7 @@ function constructNativeAdDiv(nativeAd, nativeAdDiv) {
 }
 
 var MolocoSDK = function (data) {
-  this.isLegacy = (data["isLegacy"] != null) ? data["isLegacy"] : true;
+  this.isLegacy = (data["is_legacy"] != null) ? data["is_legacy"] : true;
   this.useRedirectUrl = data["use_redirect_url"] || false;
   this.endpoint = (this.isLegacy === true) ? "//adservfnt-asia.adsmoloco.com/adserver?mobile_web=1" : "//adservfnt-asia.adsmoloco.com/adserver/v1?mobile_web=1";
   this.adUnit = data["ad_unit"];
