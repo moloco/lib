@@ -29,6 +29,7 @@ function constructNativeAdDiv(nativeAd, nativeAdDiv) {
 
 var MolocoSDK = function (data) {
   this.isLegacy = (data["isLegacy"] != null) ? data["isLegacy"] : true;
+  this.useRedirectUrl = data["use_redirect_url"] || false;
   this.endpoint = (this.isLegacy === true) ? "//adservfnt-asia.adsmoloco.com/adserver?mobile_web=1" : "//adservfnt-asia.adsmoloco.com/adserver/v1?mobile_web=1";
   this.adUnit = data["ad_unit"];
   this.adType = data["ad_type"];
@@ -70,7 +71,11 @@ MolocoSDK.prototype.requestAd = function (adDiv) {
               context.renderAd(xhr.responseText);
           } else {
               bannerAd = JSON.parse(xhr.responseText);
-              context.renderAd(bannerAd.html);
+              if (context.useRedirectUrl) {
+                  context.renderAdWithRedirectUrl(bannerAd);
+              } else {
+                  context.renderAd(bannerAd.html);
+              }
           }
           break;
         case AdType.NATIVE:
@@ -86,6 +91,18 @@ MolocoSDK.prototype.requestAd = function (adDiv) {
       }
     }
   }
+}
+
+MolocoSDK.prototype.renderAdWithRedirectUrl = function (bannerAd) {
+  this.renderAd(bannerAd.html);
+
+  const atag = document.getElementById("molocoads_link");
+  const originClickUrl = atag.href;
+  atag.href = bannerAd.finallandingurl;
+
+  let xhr = new XMLHttpRequest();
+  xhr.open("GET", originClickUrl, true);
+  xhr.send();
 }
 
 // Render ad received from Moloco.
