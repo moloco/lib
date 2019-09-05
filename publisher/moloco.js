@@ -28,7 +28,8 @@ function constructNativeAdDiv(nativeAd, nativeAdDiv) {
 }
 
 var MolocoSDK = function (data) {
-  this.endpoint = "//adservfnt-asia.adsmoloco.com/adserver/v1?mobile_web=1";
+  this.isLegacy = (data["isLegacy"] != null) ? data["isLegacy"] : true;
+  this.endpoint = (this.isLegacy === true) ? "//adservfnt-asia.adsmoloco.com/adserver?mobile_web=1" : "//adservfnt-asia.adsmoloco.com/adserver/v1?mobile_web=1";
   this.adUnit = data["ad_unit"];
   this.adType = data["ad_type"];
   this.containerId = data["container_id"];
@@ -65,8 +66,12 @@ MolocoSDK.prototype.requestAd = function (adDiv) {
     if (this.readyState === 4 && this.status === 200) {
       switch (context.adType) {
         case AdType.BANNER:
-          bannerAd = JSON.parse(xhr.responseText);
-          context.renderAd(bannerAd.html);
+          if (context.isLegacy) {
+              context.renderAd(xhr.responseText);
+          } else {
+              bannerAd = JSON.parse(xhr.responseText);
+              context.renderAd(bannerAd.html);
+          }
           break;
         case AdType.NATIVE:
           let nativeAd;
