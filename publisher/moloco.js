@@ -100,9 +100,19 @@ MolocoSDK.prototype.renderAdWithRedirectUrl = function (bannerAd) {
   const originClickUrl = atag.href;
   atag.href = bannerAd.finallandingurl;
 
-  let xhr = new XMLHttpRequest();
-  xhr.open("GET", originClickUrl, true);
-  xhr.send();
+  if(atag.addEventListener) {
+    atag.addEventListener('click', function(){
+      let xhr = new XMLHttpRequest();
+      xhr.open("GET", originClickUrl, true);
+      xhr.send();
+    });
+  } else if(link.attachEvent) {
+    atag.attachEvent('onclick', function(){
+      let xhr = new XMLHttpRequest();
+      xhr.open("GET", originClickUrl, true);
+      xhr.send();
+    });
+  }
 }
 
 // Render ad received from Moloco.
