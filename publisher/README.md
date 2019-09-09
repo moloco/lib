@@ -41,8 +41,8 @@ Now initialize Moloco SDK using the provided ad unit ID.
       width: 640,
       height: 100,
       os: "android",
-      use_redirect_url: false, // default: false.
-      isLegacy: false, // default: true.
+      use_direct_landing: true, // default: false.
+      use_endpoint_v1: true, // default: false.
     }); 
   </script>
 ```

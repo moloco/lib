@@ -28,9 +28,9 @@ function constructNativeAdDiv(nativeAd, nativeAdDiv) {
 }
 
 var MolocoSDK = function (data) {
-  this.isLegacy = (data["is_legacy"] != null) ? data["is_legacy"] : true;
-  this.useRedirectUrl = data["use_redirect_url"] || false;
-  this.endpoint = (this.isLegacy === true) ? "//adservfnt-asia.adsmoloco.com/adserver?mobile_web=1" : "//adservfnt-asia.adsmoloco.com/adserver/v1?mobile_web=1";
+  this.useEndpointV1 = data["use_endpoint_v1"] || false;
+  this.useDirectLanding = data["use_direct_landing"] || false;
+  this.endpoint = (!this.useEndpointV1) ? "//adservfnt-asia.adsmoloco.com/adserver?mobile_web=1" : "//adservfnt-asia.adsmoloco.com/adserver/v1?mobile_web=1";
   this.adUnit = data["ad_unit"];
   this.adType = data["ad_type"];
   this.containerId = data["container_id"];
@@ -67,11 +67,11 @@ MolocoSDK.prototype.requestAd = function (adDiv) {
     if (this.readyState === 4 && this.status === 200) {
       switch (context.adType) {
         case AdType.BANNER:
-          if (context.isLegacy) {
+          if (!context.useEndpointV1) {
               context.renderAd(xhr.responseText);
           } else {
               bannerAd = JSON.parse(xhr.responseText);
-              if (context.useRedirectUrl) {
+              if (context.useDirectLanding) {
                   context.renderAdWithRedirectUrl(bannerAd);
               } else {
                   context.renderAd(bannerAd.html);
