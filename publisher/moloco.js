@@ -28,7 +28,9 @@ function constructNativeAdDiv(nativeAd, nativeAdDiv) {
 }
 
 var MolocoSDK = function (data) {
-  this.endpoint = "//adservfnt-asia.adsmoloco.com/adserver?mobile_web=1";
+  this.useEndpointV1 = data["use_endpoint_v1"] || false;
+  this.useDirectLanding = data["use_direct_landing"] || false;
+  this.endpoint = (!this.useEndpointV1) ? "//adservfnt-asia.adsmoloco.com/adserver?mobile_web=1" : "//adservfnt-asia.adsmoloco.com/adserver/v1?mobile_web=1";
   this.adUnit = data["ad_unit"];
   this.adType = data["ad_type"];
   this.containerId = data["container_id"];
@@ -46,6 +48,10 @@ var MolocoSDK = function (data) {
 MolocoSDK.prototype.requestAd = function (adDiv) {
   const orientation = window.innerWidth > window.innerHeight ? "l" : "p";
   let url = this.endpoint + "&id=" + this.adUnit + "&udid=ifa:" + this.idfa + "&bundle=" + this.bundle + "&iso=" + this.country + "&w=" + this.width + "&h=" + this.height + "&o=" + orientation + "&ufid=" + uuidv4() + "&x=" + this.extra + "&os=" + this.os;
+  if (this.useEndpointV1) {
+    url = this.endpoint + "&adid=" + this.idfa + "&id=" + this.adUnit + "&productid=" + this.bundle + "&country=" + this.country + "&o=" + orientation + "&x=" + this.extra + "&os=" + this.os;
+  }
+
   if (this.adType === AdType.NATIVE) {
     url = url + "&assets=title%2Ctext%2Ciconimage%2Cmainimage%2Cctatext";
   }
@@ -65,7 +71,16 @@ MolocoSDK.prototype.requestAd = function (adDiv) {
     if (this.readyState === 4 && this.status === 200) {
       switch (context.adType) {
         case AdType.BANNER:
-          context.renderAd(xhr.responseText);
+          if (!context.useEndpointV1) {
+              context.renderAd(xhr.responseText);
+          } else {
+              const bannerAd = JSON.parse(xhr.responseText);
+              if (context.useDirectLanding) {
+                  context.renderAdWithDirectLanding(bannerAd);
+              } else {
+                  context.renderAd(bannerAd.html);
+              }
+          }
           break;
         case AdType.NATIVE:
           let nativeAd;
@@ -79,6 +94,22 @@ MolocoSDK.prototype.requestAd = function (adDiv) {
           break;
       }
     }
+  }
+}
+
+MolocoSDK.prototype.renderAdWithDirectLanding = function (bannerAd) {
+  this.renderAd(bannerAd.html);
+
+  const atag = document.getElementById("molocoads_link");
+  const originClickUrl = atag.href;
+  atag.href = bannerAd.finallandingurl;
+
+  if(atag.addEventListener) {
+    atag.addEventListener('click', function(){
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", originClickUrl, true);
+      xhr.send();
+    });
   }
 }
 
