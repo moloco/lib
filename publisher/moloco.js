@@ -48,6 +48,10 @@ var MolocoSDK = function (data) {
 MolocoSDK.prototype.requestAd = function (adDiv) {
   const orientation = window.innerWidth > window.innerHeight ? "l" : "p";
   let url = this.endpoint + "&id=" + this.adUnit + "&udid=ifa:" + this.idfa + "&bundle=" + this.bundle + "&iso=" + this.country + "&w=" + this.width + "&h=" + this.height + "&o=" + orientation + "&ufid=" + uuidv4() + "&x=" + this.extra + "&os=" + this.os;
+  if (this.useEndpointV1) {
+    url = this.endpoint + "&adid=" + this.idfa + "&id=" + this.adUnit + "&productid=" + this.bundle + "&country=" + this.country + "&o=" + orientation + "&x=" + this.extra + "&os=" + this.os;
+  }
+
   if (this.adType === AdType.NATIVE) {
     url = url + "&assets=title%2Ctext%2Ciconimage%2Cmainimage%2Cctatext";
   }
