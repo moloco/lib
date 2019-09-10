@@ -70,9 +70,9 @@ MolocoSDK.prototype.requestAd = function (adDiv) {
           if (!context.useEndpointV1) {
               context.renderAd(xhr.responseText);
           } else {
-              bannerAd = JSON.parse(xhr.responseText);
+              const bannerAd = JSON.parse(xhr.responseText);
               if (context.useDirectLanding) {
-                  context.renderAdWithRedirectUrl(bannerAd);
+                  context.renderAdWithDirectLanding(bannerAd);
               } else {
                   context.renderAd(bannerAd.html);
               }
@@ -93,7 +93,7 @@ MolocoSDK.prototype.requestAd = function (adDiv) {
   }
 }
 
-MolocoSDK.prototype.renderAdWithRedirectUrl = function (bannerAd) {
+MolocoSDK.prototype.renderAdWithDirectLanding = function (bannerAd) {
   this.renderAd(bannerAd.html);
 
   const atag = document.getElementById("molocoads_link");
@@ -102,13 +102,13 @@ MolocoSDK.prototype.renderAdWithRedirectUrl = function (bannerAd) {
 
   if(atag.addEventListener) {
     atag.addEventListener('click', function(){
-      let xhr = new XMLHttpRequest();
+      const xhr = new XMLHttpRequest();
       xhr.open("GET", originClickUrl, true);
       xhr.send();
     });
   } else if(link.attachEvent) {
     atag.attachEvent('onclick', function(){
-      let xhr = new XMLHttpRequest();
+      const xhr = new XMLHttpRequest();
       xhr.open("GET", originClickUrl, true);
       xhr.send();
     });
