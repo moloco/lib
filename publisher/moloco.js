@@ -106,12 +106,6 @@ MolocoSDK.prototype.renderAdWithDirectLanding = function (bannerAd) {
       xhr.open("GET", originClickUrl, true);
       xhr.send();
     });
-  } else if(link.attachEvent) {
-    atag.attachEvent('onclick', function(){
-      const xhr = new XMLHttpRequest();
-      xhr.open("GET", originClickUrl, true);
-      xhr.send();
-    });
   }
 }
 
